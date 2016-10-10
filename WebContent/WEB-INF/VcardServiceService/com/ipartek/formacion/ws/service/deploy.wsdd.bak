@@ -1,0 +1,39 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from VcardServiceService WSDL service -->
+
+  <service name="VcardService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://service.ws.formacion.ipartek.com"/>
+      <parameter name="wsdlServiceElement" value="VcardServiceService"/>
+      <parameter name="schemaQualified" value="http://pojo.ws.formacion.ipartek.com,http://service.ws.formacion.ipartek.com"/>
+      <parameter name="wsdlServicePort" value="VcardService"/>
+      <parameter name="className" value="com.ipartek.formacion.ws.service.VcardServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="VcardService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getVcard" qname="operNS:getVcard" xmlns:operNS="http://service.ws.formacion.ipartek.com" returnQName="retNS:getVcardReturn" xmlns:retNS="http://service.ws.formacion.ipartek.com" returnType="rtns:Empleado" xmlns:rtns="http://pojo.ws.formacion.ipartek.com" soapAction="" >
+        <parameter qname="pns:user" xmlns:pns="http://service.ws.formacion.ipartek.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:pass" xmlns:pns="http://service.ws.formacion.ipartek.com" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:idEmpleado" xmlns:pns="http://service.ws.formacion.ipartek.com" type="tns:long" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="getVcard"/>
+
+      <typeMapping
+        xmlns:ns="http://pojo.ws.formacion.ipartek.com"
+        qname="ns:Empleado"
+        type="java:com.ipartek.formacion.ws.pojo.Empleado"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>
